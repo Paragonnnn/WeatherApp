@@ -1,0 +1,296 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rock Paper Scissors</title>
+</head>
+<body>
+<div body>
+    <header>Welcome</header>
+    
+    <button id="open">open</button>
+<div class="body">
+    <div class="container">
+        <header>ROCK PAPER SCISSORS</header>
+        <h2>My Choice </h2>
+        <span id="mychoicedisplay"></span>
+        <h2>Computer's Choice </h2>
+        <span id="computerchoicedisplay" ></span>
+        <h2>Result </h2>
+        <span id="resultdisplay" class="result"></span>
+        <div class="button-container">
+            <button id="rock">rock</button>
+            <button id="paper">paper</button>
+            <button id="scissors">scissors</button>
+        </div>
+        <button id="reset">reset</button>
+        <button id="close">X</button>
+        <button id="count">count</button>
+        <div id="counter1">Your score: 0</div>
+        <div id="counter2">Computer's score: 0</div>
+    </div>
+</div>
+</div>
+    
+    
+    
+    
+    <style>
+        *{
+            font-family: sans-serif;
+            transition: all 0.1s;
+        }
+        body{
+            background-color: grey;
+        }
+        .body{
+            display: none;
+            
+        }
+        header{
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+        .container{
+            height: 500px;
+            width: 400px;
+            display: none;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            background-color: white;
+            position: relative;
+            animation-name: rock;
+            animation-duration: .5s;
+            animation-fill-mode: forwards;
+            
+        }
+        @keyframes rock {
+            0%{
+                transform: translateX(-100%);
+                /* height: 100px; */
+            }
+            100%{
+                transform: translateX(0);
+                /* height: 500px; */
+            }
+        }
+        
+        h2{
+            padding: 5px 0;
+            background-color: rgb(166, 213, 231);
+            width: 250px;
+            text-align: center;
+            font-weight: normal;
+        }
+        span{
+            font-size: 1.2rem;
+            height: 30px;
+            text-align: center;
+            line-height: -50%;
+        }
+        .button-container{
+            display: flex;
+            margin-top: 20px;
+            gap: 15px;
+            
+        }
+        button{
+            padding: 5px 0;
+            width: 70px;
+            font-size: 1rem;
+            justify-content: space-around;
+            background-color: rgb(166, 213, 231);
+            outline: none;
+            border: solid 1px rgb(166, 213, 231);
+            
+            
+        }
+        button:hover{
+            background-color: rgb(21, 100, 131);
+        }
+        button:active{
+            background-color: rgb(10, 78, 105);
+        }
+        #open{
+            position: absolute;
+            
+        }
+        #close{
+            width: 40px;
+            position: absolute;
+            top: 5;
+            right: 5;
+        }
+        #reset{
+            position: absolute;
+            right: 5;
+            bottom: 5;
+        }
+        .result{
+            padding: 5px 0;
+            height: 25px;
+            
+            
+        }
+        #count{
+            position: absolute;
+            left: 5;
+            bottom: 5;
+        }
+        #counter1,#counter2{
+            padding: 5px 0;
+        }
+        
+    </style>
+
+    <script>
+        const game = document.querySelector('.body')
+        const rockBtn = document.getElementById('rock')
+        const paperBtn = document.getElementById('paper')
+        const scissorsBtn = document.getElementById('scissors')
+        const myChoice = document.getElementById('mychoicedisplay')
+        const computerChoiceDisplay = document.getElementById('computerchoicedisplay')
+        const resultDisplay = document.getElementById('resultdisplay')
+        const openGame = document.getElementById('open')
+        const closeGame = document.getElementById('close')
+        const reset = document.getElementById('reset')
+        const myScore = document.getElementById('counter1')
+        const computerScore = document.getElementById('counter2')
+        const body = document.querySelector('[body]')
+        const count = document.getElementById('count')
+
+        let myScoree = 0
+        let computerScoree = 0
+        let computerChoiceResult
+
+        openGame.addEventListener('click', ()=>{
+            game.style.display = 'block'
+            
+            
+        })
+        count.addEventListener('click', ()=>{
+            console.log(body.children);
+        })
+        closeGame.addEventListener('click', ()=>{
+            game.style.display = 'none'
+            myChoice.innerHTML = ''
+            computerChoiceDisplay.innerHTML = ''
+            resultDisplay.innerHTML = ''
+            resultDisplay.style.width = '0'
+            myScore.innerHTML =  'Your score: 0'
+            computerScore.innerHTML = 'Computer\'s score: 0'
+            myScoree = 0
+            computerScoree = 0
+            
+        })
+        reset.addEventListener('click', ()=>{
+            myChoice.innerHTML = ''
+            computerChoiceDisplay.innerHTML = ''
+            resultDisplay.innerHTML = ''
+            resultDisplay.style.width = '0'
+            myScore.innerHTML =  'Your score: 0'
+            computerScore.innerHTML = 'Computer\'s score: 0'
+            myScoree = 0
+            computerScoree = 0
+            
+            
+        })
+        
+        rockBtn.addEventListener('click', ()=>{
+            myChoice.innerHTML = 'rock'
+            myChoiceResult = 'rock'
+            computerChoice()
+            result()
+            scoreBoard()
+        })
+        paperBtn.addEventListener('click', ()=>{
+            myChoice.innerHTML = 'paper'
+            myChoiceResult = 'paper'
+            computerChoice()
+            result()
+            scoreBoard()
+        })
+        scissorsBtn.addEventListener('click', ()=>{
+            myChoice.innerHTML = 'scissors'
+            myChoiceResult = 'scissors'
+            computerChoice()
+            result()
+            scoreBoard()
+        })
+
+
+        function computerChoice() {
+            const randomNumber = Math.floor(Math.random() * 3) + 1
+            if (randomNumber === 1) {
+                computerChoiceResult = 'rock'
+            }
+            if (randomNumber === 2) {
+                computerChoiceResult = 'paper'
+            }
+            if (randomNumber === 3) {
+                computerChoiceResult = 'scissors'
+            }
+            
+            computerChoiceDisplay.innerHTML = computerChoiceResult
+            
+        }
+        function result() {
+            if (myChoiceResult === computerChoiceResult) {
+                resultDisplay.innerHTML = 'Draw!'
+                resultDisplay.style.backgroundColor = '#ffff00b7'
+                resultDisplay.style.width = '100px'
+            }
+            if (myChoiceResult === 'rock' && computerChoiceResult === 'paper') {
+                resultDisplay.innerHTML = 'You lose!'
+                resultDisplay.style.backgroundColor = '#ff00009f'
+                resultDisplay.style.width = '100px'
+            }
+            if (myChoiceResult === 'paper' && computerChoiceResult === 'scissors') {
+                resultDisplay.innerHTML = 'You lose!'
+                resultDisplay.style.backgroundColor = '#ff00009f'
+                resultDisplay.style.width = '100px'
+            }
+            if (myChoiceResult === 'scissors' && computerChoiceResult === 'rock') {
+                resultDisplay.innerHTML = 'You lose!'
+                resultDisplay.style.backgroundColor = '#ff00009f'
+                resultDisplay.style.width = '100px'
+            }
+            if (myChoiceResult === 'rock' && computerChoiceResult === 'scissors') {
+                resultDisplay.innerHTML = 'You win!'
+                resultDisplay.style.backgroundColor = '#14c414da'
+                resultDisplay.style.width = '100px'
+            }
+            if (myChoiceResult === 'paper' && computerChoiceResult === 'rock') {
+                resultDisplay.innerHTML = 'You win!'
+                resultDisplay.style.backgroundColor = '#14c414da'
+                resultDisplay.style.width = '100px'
+            }
+            if (myChoiceResult === 'scissors' && computerChoiceResult === 'paper') {
+                resultDisplay.innerHTML = 'You win!'
+                resultDisplay.style.backgroundColor = '#14c414da'
+                resultDisplay.style.width = '100px'
+            }
+        }
+        function scoreBoard() {
+            
+            if (resultDisplay.innerHTML === 'You win!') {
+                myScoree = myScoree + 1
+                myScore.innerText = `Your score: ${myScoree}`
+            }
+            if (resultDisplay.innerHTML === 'You lose!') {
+                computerScoree = computerScoree + 1
+                computerScore.innerText = `Computer's score: ${computerScoree}`
+            }
+            if (resultDisplay.innerHTML === 'Draw!') {
+                
+            }
+        }
+
+
+        
+    </script>
+</body>
+</html>
